@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: white;
+  color: #151515;
+}
+body.dark {
+  background: #151515;
+  color: white;
+}
+h4,
+h1 {
+  font-family: "Bagel Fat One", system-ui;
+  font-family: "Sunflower", sans-serif;
+}
+.nav_bar {
+  padding: 10px 0;
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid #4f4f4f;
+}
+.nav_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px;
+  height: 100%;
+}
+.logo {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.dark_mode_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #b3b3b3;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+}
+.dark_mode_btn:hover{
+  opacity: .8;
+  transition: .2s;
+}
+
+.set_theme_img {
+  width: 23px;
+  height: 23px;
+}
+main {
+  width: 100%;
+  height: calc(100vh - 90.8px);
+  padding: 40px 0;
+  background-color: rgb(224, 255, 226);
+}
+.main_wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  width: 100%;
+}
+form {
+  padding: 10px;
+  width: 400px;
+  height: 450px;
+  border: 1px solid;
+  border-radius: 4px;
+  background-color: lightgrey;
+}
+table {
+  width: 400px;
+  height: 450px;
+  border-collapse: collapse;
+}
+table tr:nth-child(1) {
+  height: 135px;
+}
+
+#display {
+  height: 130px;
+  text-align: right;
+  font-size: 25px;
+  width: 99%;
+}
+td {
+  width: 20%;
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Sunflower:wght@500&display=swap"rel="stylesheet"/>
+    <link rel="stylesheet" href="cal.css">
+    <title>계산기</title>
+    <meta name="description" content="간편 복리 계산기: 계산 결과를 csv로 다운로드하세요.">
+
+    <style>
+      
+    </style>
+  </head>
+  <body>
+    <nav class="nav_bar">
+      <div class="nav_container">
+        <div class="logo_wrap">
+          <img class="logo" src="img/m.lab.png" onclick="goMainPage()" />
+        </div>
+        <div class="site_title_wrap">
+          <h1 class="title">공학용 계산기</h1>
+        </div>
+        <div class="utils_wrap">
+          <div class="dark_mode_btn" onclick="setTheme()">
+            <img class="set_theme_img" src="img/moon.png" />
+          </div>
+          <!-- <div class="set_lang_wrap">
+            <select class="set_lang">
+              <option value="ko">한국어</option>
+              <option value="en">English</option>
+              <option value="zh">中国語</option>
+              <option value="ja">日本語</option>
+            </select>
+          </div> -->
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="main_wrap">
+        <form>
+          <table border="1">
+            <tr>
+              <td colspan="5"><input type="text" id="display"/></td>
+            </tr>
+            <tr>
+              <td colspan="3"><input type="button" value="Enter" onclick="sum()" style="height: 100%; width: 100%"/></td>
+              <td colspan="2"><input type="button"value="Clear"onclick="clearDisplay()"style="height: 100%; width: 100%"/></td>
+            </tr>
+            <tr>
+              <td><input class="number_btn" type="button"value="1"onclick="add('1')" style="height: 100%; width: 100%"/></td>
+              <td><input class="number_btn" type="button" value="2" onclick="add('2')" style="height: 100%; width: 100%"/></td>
+              <td><input class="number_btn" type="button" value="3" onclick="add('3')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="+" onclick="add('+')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="tan" onclick="tan(this.form.display)" style="height: 100%; width: 100%"/></td>
+            </tr>
+            <tr>
+              <td><input class="number_btn" type="button" value="4" onclick="add('4')" style="height: 100%; width: 100%"/></td>
+              <td><input class="number_btn" type="button" value="5" onclick="add('5')" style="height: 100%; width: 100%"/></td>
+              <td><input class="number_btn" type="button" value="6" onclick="add('6')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="-" onclick="add('-')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="sin" onclick="sin(this.form.display)" style="height: 100%; width: 100%"/></td>
+            </tr>
+            <tr>
+              <td><input class="number_btn" type="button" value="7" onclick="add('7')" style="height: 100%; width: 100%"/></td>
+              <td><input class="number_btn" type="button" value="8" onclick="add('8')" style="height: 100%; width: 100%"/></td>
+              <td><input class="number_btn" type="button" value="9" onclick="add('9')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="*" onclick="add('*')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="cos" onclick="cos(this.form.display)" style="height: 100%; width: 100%"/></td>
+            </tr>
+            <tr>
+              <td><input type="button" value="0" onclick="add('0')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="+/-" onclick="addAbs()" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="/" onclick="add('/')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="in" onclick="addIn()" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="x^y" onclick="addPow()" style="height: 100%; width: 100%"/></td>
+            </tr>
+            <!-- 단위 변환 버튼 추가 -->
+            <tr>
+              <td><input type="button" value="." onclick="add('.')" style="height: 100%; width: 100%"/></td>
+              <td ><input type="button" value=")" onclick="add(')')" style="height: 100%; width: 100%"/></td>
+              <td><input type="button" value="log" onclick="addLog()" style="height: 100%; width: 100%"/></td>
+              <td ><input type="button" value="feet" onclick="convertToFeet()" style="height: 100%; width: 100%" /></td>
+              <td ><input type="button" value="inches" onclick="convertToInches()" style="height: 100%; width: 100%"/></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </main>
+    <script src="cal.js"></script>
+  </body>
+</html>
