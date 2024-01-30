@@ -1,34 +1,76 @@
 const bodyTag = document.body;
 const bodyClassList = bodyTag.classList;
-const logo = document.querySelector(".logo");
-const themeBtn = document.querySelector(".dark_mode_btn");
-const navBar = document.querySelector(".nav_bar");
+
+const body = document.querySelector("body");
+const nav = document.querySelector("nav");
+
+const toggleList = document.querySelectorAll(".toggleSwitch");
+const toggleImg = document.querySelector(".display_mode_icon");
+
+const menuBtn = document.querySelector(".menu_btn");
+const menu = document.querySelector(".menu");
+const menuLink = document.querySelectorAll(".menu_container a");
+
+const form = document.querySelector("form");
+const calBtn = document.querySelectorAll(".cal_btn");
+const calWriteIntpt = document.querySelector(".write_input");
+
 const main = document.querySelector("main");
+const footer = document.querySelector("footer");
 
-function setTheme() {
-  if (bodyClassList.contains("dark")) {
-    // 다크 모드일 경우, 다크 모드 클래스 제거
-    bodyClassList.remove("dark");
-    // localStorage에 상태 저장
-    window.localStorage.setItem("color_mode", "");
-    logo.src = "img/m.lab.png";
-    themeBtn.querySelector(".set_theme_img").src = "img/sun.png";
+var isActive = true;
+// 다크모드
+toggleList.forEach(($toggle) => {
+  $toggle.onclick = () => {
+    isActive = $toggle.classList.contains("active");
 
-    navBar.style.borderBottom = "1px solid #aaaaaa";
-    main.style.backgroundColor = "rgb(224, 255, 226)";
-  } else {
-    // 다크 모드가 아닐 경우, 다크 모드 클래스추가
-    bodyClassList.add("dark");
-    // localStorage에 상태 저장
-    window.localStorage.setItem("color_mode", "dark");
-    logo.src = "img/m.lab_dark.png";
-    themeBtn.querySelector(".set_theme_img").src = "img/moon.png";
+    if (isActive) {
+      $toggle.classList.remove("active");
+      toggleImg.setAttribute("src", "images/sun.png");
+      body.classList.remove("dark");
+      body.classList.add("lite");
 
-    navBar.style.borderBottom = "1px solid #4f4f4f";
-    main.style.backgroundColor = "#151515";
+      menuBtn.classList.remove("menu_btn_dark");
+      menu.classList.remove("menu_dark");
+      for(item of menuLink){
+        item.classList.remove("link_dark");
+      }
 
-  }
-}
+      nav.classList.remove("nav_dark"); 
+      main.classList.remove("main_dark");
+
+      form.classList.remove("form_dark");
+      for(item of calBtn){
+        item.classList.remove("cal_btn_dark");
+      }
+      calWriteIntpt.classList.remove("write_input_dark");
+
+      footer.classList.remove("footer_dark");
+    } else {
+      $toggle.classList.add("active");
+      toggleImg.setAttribute("src", "images/moon.png");
+      body.classList.remove("lite");
+      body.classList.add("dark");
+
+      menuBtn.classList.add("menu_btn_dark");
+      menu.classList.add("menu_dark");
+      for(item of menuLink){
+        item.classList.add("link_dark");
+      }
+
+      nav.classList.add("nav_dark");
+      main.classList.add("main_dark");
+
+      form.classList.add("form_dark");
+      for(item of calBtn){
+        item.classList.add("cal_btn_dark");
+      }
+      calWriteIntpt.classList.add("write_input_dark");
+
+      footer.classList.add("footer_dark");
+    }
+  };
+});
 
 // 계산 기능
 var all = "";
@@ -165,65 +207,151 @@ function convertToInches() {
   val.value = result;
 }
 
-const title = document.querySelector(".title");
-const userLang = navigator.language.toLowerCase();
-const langSplit = userLang.substring(userLang.indexOf("-") + 1);
-let selectedLanguage = langSplit;
+
+
+// common js
+var isMenuOpened = false;
+var isContentOpened = false;
+var browserWidth = window.innerWidth;
+let contentType = document.querySelectorAll(".content_type");
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log(selectedLanguage)
-  document.title = getTranslatedTitle(selectedLanguage);
-  getTranslatedDescription(selectedLanguage);
-  document.querySelector('meta[name="description"]')
-          .setAttribute("content", getTranslatedDescription(selectedLanguage));
-  title.textContent = getTranslatedContent(selectedLanguage);
+  let menuBtn = document.querySelector(".menu_btn");
+
+  menuBtn.addEventListener("click", function () {
+    let menu = document.querySelector(".menu");
+    slideToggle(menu);
+  });
+
+  contentType.forEach(function(item) {
+    item.addEventListener("click", function() {
+      let list = item.parentNode.querySelector(".content_list");
+      slideList(list);
+    });
+  });
+
 });
 
-function getTranslatedTitle(selectedLanguage) {
-  switch (selectedLanguage) {
-    case "ko":
-    case "kr":
-      return "공학용 계산기";
-    case "en":
-      return "Scientific Calculator";
-    case "zh":
-      return "科学计算器";
-    case "ja":
-      return "工学用計算機";
-    default:
-      return "Scientific Calculator";
+function slideToggle(menu) {
+  if (isMenuOpened) {
+    menu.classList.remove("open");
+    isMenuOpened = false;
+  } else {
+    menu.classList.add("open");
+    isMenuOpened = true;
+  }
+}
+
+function slideList(list){
+  let span = list.parentNode.querySelector("span");
+  if(isContentOpened){
+    list.classList.remove("content_open");
+    isContentOpened = false;
+    if (window.innerWidth <= 768) {
+      span.textContent = "↓";   
+    }
+  } else{
+    list.classList.add("content_open");
+    isContentOpened = true;
+    if (window.innerWidth <= 768) {
+      span.textContent = "↑";   
+    }
+  }
+
+}
+
+// browserWidth 변화에 따른 content arrow 추가 및 제거
+function handleResize() {
+    let isSpan = document.querySelector(".arrow");
+    if (window.innerWidth <= 768) {
+      contentType.forEach(function(item) {
+        if(!isSpan){
+          let arrow = document.createElement("span");
+          arrow.classList.add("arrow")
+          arrow.style.float = "right"
+          arrow.style.paddingRight = "3px"
+          arrow.textContent = "↓";   
+          item.appendChild(arrow);
+        }
+      });
+    } else{
+      if(isSpan){
+        contentType.forEach(function(item) {
+          let arrow = item.querySelector(".arrow");
+          item.removeChild(arrow);
+        });
+      }
     }
   }
   
-  function getTranslatedDescription(selectedLanguage) {
-    switch (selectedLanguage) {
-      case "ko":
-      case "kr":
-        return "간편한 공학용 계산기";
-      case "en":
-        return "An easy Scientific Calculator";
-      case "zh":
-        return "简便的科学计算器";
-      case "ja":
-        return "工学用計算機";
-      default:
-        return "An easy engineering calculator";
-    }
-  }
+    // 초기 로딩 시에도 한 번 실행
+    handleResize();
+    
+    // 브라우저 크기가 변할 때마다 실행
+    window.addEventListener("resize", handleResize);
 
-  function getTranslatedContent(selectedLanguage){
-    const title = document.querySelector(".title");
-    switch (selectedLanguage) {
-      case "ko":
-      case "kr":
-        return "공학용 계산기"
-      case "en":
-        return "Scientific Calculator";
-      case "zh":
-        return "科学计算器";
-      case "ja":
-        return "工学用計算機";
-      default:
-        return "Scientific Calculator";
-    }
-  }
+
+
+//언어 설정 기능
+// const title = document.querySelector(".title");
+// const userLang = navigator.language.toLowerCase();
+// const langSplit = userLang.substring(userLang.indexOf("-") + 1);
+// let selectedLanguage = langSplit;
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   console.log(selectedLanguage)
+//   document.title = getTranslatedTitle(selectedLanguage);
+//   getTranslatedDescription(selectedLanguage);
+//   document.querySelector('meta[name="description"]')
+//           .setAttribute("content", getTranslatedDescription(selectedLanguage));
+//   title.textContent = getTranslatedContent(selectedLanguage);
+// });
+
+// function getTranslatedTitle(selectedLanguage) {
+//   switch (selectedLanguage) {
+//     case "ko":
+//     case "kr":
+//       return "공학용 계산기";
+//     case "en":
+//       return "Scientific Calculator";
+//     case "zh":
+//       return "科学计算器";
+//     case "ja":
+//       return "工学用計算機";
+//     default:
+//       return "Scientific Calculator";
+//     }
+//   }
+  
+//   function getTranslatedDescription(selectedLanguage) {
+//     switch (selectedLanguage) {
+//       case "ko":
+//       case "kr":
+//         return "간편한 공학용 계산기";
+//       case "en":
+//         return "An easy Scientific Calculator";
+//       case "zh":
+//         return "简便的科学计算器";
+//       case "ja":
+//         return "工学用計算機";
+//       default:
+//         return "An easy engineering calculator";
+//     }
+//   }
+
+//   function getTranslatedContent(selectedLanguage){
+//     const title = document.querySelector(".title");
+//     switch (selectedLanguage) {
+//       case "ko":
+//       case "kr":
+//         return "공학용 계산기"
+//       case "en":
+//         return "Scientific Calculator";
+//       case "zh":
+//         return "科学计算器";
+//       case "ja":
+//         return "工学用計算機";
+//       default:
+//         return "Scientific Calculator";
+//     }
+//   }
